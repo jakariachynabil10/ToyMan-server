@@ -51,6 +51,31 @@ async function run() {
       res.send(result)
     })
 
+    app.put('/toys/:id' , async(req, res)=>{
+      const id = req.params.id
+      const filter = {_id : new ObjectId(id)}
+      const option = {upsert : true};
+      const updateToys = req.body
+      console.log(updateToys)
+      const toys = {
+        $set :{
+            name : updateToys.name,
+            seller : updateToys.seller,
+            email : updateToys.email,
+            available_quantity : updateToys.available_quantity,
+            picture : updateToys.picture,
+            sub_category : updateToys.sub_category,
+            price : updateToys.price,
+            rating : updateToys.rating,
+            details : updateToys.details
+        }
+}
+
+const result = await toysCollaction.updateOne(filter, toys, option);
+console.log(result)
+res.send(result);
+    })
+
 
     // add toys
 
