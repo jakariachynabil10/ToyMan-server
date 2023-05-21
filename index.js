@@ -36,6 +36,14 @@ async function run() {
       res.send(result);
     });
 
+    app.get('/searchToys', async(req, res)=>{
+      // console.log(req.query.search)
+      const search = req.query.search
+      const query = { name : { $regex : search}}
+      const result = await toysCollaction.find(query).toArray();
+      res.send(result);
+    })
+
     app.get("/toys/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
