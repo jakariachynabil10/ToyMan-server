@@ -17,12 +17,13 @@ const client = new MongoClient(uri, {
     strict: true,
     deprecationErrors: true,
   },
+
 });
 
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const toysCollaction = client.db("toysDB").collection("toysStore");
 
@@ -45,7 +46,7 @@ async function run() {
     app.put("/toys/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
-      const option = { upsert: true };
+      const options = { upsert: true };
       const updateToys = req.body;
       console.log(updateToys);
       const toys = {
@@ -62,7 +63,7 @@ async function run() {
         },
       };
 
-      const result = await toysCollaction.updateOne(filter, toys, option);
+      const result = await toysCollaction.updateOne(filter, toys, options);
       res.send(result);
     });
 
