@@ -90,14 +90,9 @@ async function run() {
       let query = {};
       console.log(sortQuery)
       if (req.query?.email) {
-        query = { email: req.query.email };
+        query = { email: req.query.email,  };
       }
-      const options = {
-        sort : {
-          "price" : sortQuery === 'asc' ? 1 : -1
-        }
-      }
-      const result = await toysCollaction.find(query, options).toArray();
+      const result = await toysCollaction.find(query).sort({price : sortQuery === 'asc' ? 1 : -1}).toArray();
       res.send(result);
     });
 
