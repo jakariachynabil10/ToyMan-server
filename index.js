@@ -85,11 +85,19 @@ async function run() {
     // add toys
 
     app.get("/addToy", async (req, res) => {
+      // console.log(req.query.sort)
+      const sortQuery = req.query.sort
       let query = {};
+      console.log(sortQuery)
       if (req.query?.email) {
         query = { email: req.query.email };
       }
-      const result = await toysCollaction.find(query).toArray();
+      const options = {
+        sort : {
+          "price" : sortQuery === 'asc' ? 1 : -1
+        }
+      }
+      const result = await toysCollaction.find(query, options).toArray();
       res.send(result);
     });
 
